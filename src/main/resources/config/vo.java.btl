@@ -1,0 +1,32 @@
+<% for(customFile in config.injectionConfig.customFiles){ %>
+    <% if(customFile.fileName == 'ResultVO.java') { %>
+package ${customFile.packageName};
+    <% } %>
+<% } %>
+
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import java.io.Serializable;
+
+/**
+ * <p>
+ * ${table.comment!}
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Data
+@ApiModel(description ="${table.comment!}VO")
+public class ${entity}ResultVO implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+<% var keyPropertyName; %>
+<% /** -----------BEGIN 字段循环遍历----------- **/ %>
+<% for(field in table.fields){ %>
+    @ApiModelProperty(value = "${field.comment}")
+    private ${field.propertyType} ${field.propertyName};
+<% } %>
+}
